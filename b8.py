@@ -30,9 +30,11 @@ def update_url_params(url, new_params):
 
 def chunk_download(url, path):
     r = requests.get(url, stream=True)
+    r.raise_for_status()
     with open(path, 'wb') as f:
-        for chunk in r.iter_content(chunk_size=32):
-            f.write(chunk)
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                f.write(chunk)
 
 
 class Api(object):
