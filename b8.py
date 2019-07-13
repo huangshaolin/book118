@@ -37,6 +37,14 @@ def chunk_download(url, path):
                 f.write(chunk)
 
 
+def safe_download(url, path):
+    temp_path = path + '.temp'
+    print("downloading to %s ...    " % path, end='', flush=True)
+    chunk_download(url, temp_path)
+    os.rename(temp_path, path)
+    print("done", flush=True)
+
+
 class Api(object):
 
     def __init__(self, document_id):
@@ -78,6 +86,8 @@ class Book(object):
         self.api = Api(self.document_id)
         self.img_urls = {}
         self.get_img_url_by_page(1)
+        first_img_url = self.img_urls['1']
+        self.img_ext = first_img_url[first_img_url.rfind('.')+1:]
 
 
     def get_img_url_by_page(self, page, *, retry_times=0):
@@ -91,11 +101,11 @@ class Book(object):
         keys = list(url_data.keys())
         if len(keys) > 0 and not url_data[keys[0]]:
             if retry_times < 3:
-                print("WARNING: retrieve page=%d failed, we will retry after 3 seconds" % page)
+                print("WARNING: retrieve preview data page=%d failed, we will retry after 3 seconds" % page)
                 time.sleep(3)
                 return self.get_img_url_by_page(page, retry_times=retry_times + 1)
             else:
-                print("WARNING: retrieve page=%d failed three times, we will not retry any more" % page)
+                print("WARNING: retrieve preview data page=%d failed three times, we will not retry any more" % page)
 
         if not hasattr(self, 'pages'):
             self.pages = {
@@ -114,14 +124,15 @@ class Book(object):
     def download_all_imgs(self):
         os.makedirs(self.download_dir['img'], exist_ok=True)
         for page in range(1, self.pages['preview'] + 1):
+            file_name = str(page).zfill(len(str(self.pages['preview']))) + '.' + self.img_ext
+            file_path = os.path.join(self.download_dir['img'], file_name)
+            if os.path.isfile(file_path):
+                print("INFO: file=%s already exists, we will skip it." % file_path)
+                continue
             url = self.get_img_url_by_page(page)
             if url.startswith('//'):
                 url = 'https:' + url
-            file_name = str(page).zfill(len(str(self.pages['preview']))) + url[url.rfind('.'):]
-            file_path = os.path.join(self.download_dir['img'], file_name)
-            print("downloading to %s ...    " % file_path, end='', flush=True)
-            chunk_download(url, file_path)
-            print("done", flush=True)
+            safe_download(url, file_path)
 
 
 if __name__ == '__main__':
