@@ -4,6 +4,7 @@ import os
 import sys
 import json
 import time
+import imghdr
 import inspect
 import requests
 import urllib.parse as urlparse
@@ -137,6 +138,10 @@ class Book(object):
             if url.startswith('//'):
                 url = 'https:' + url
             safe_download(url, file_path)
+            img_ext = imghdr.what(file_path)
+            base_file, ext = os.path.splitext(file_path)
+            if ext != img_ext:
+                os.rename(file_path, base_file + '.' + img_ext)
 
 
 if __name__ == '__main__':
