@@ -157,4 +157,8 @@ if __name__ == '__main__':
     for img in img_list:
         pdf.add_page()
         pdf.image(img)
-    pdf.output('output.pdf', 'F')
+    os.makedirs(book1.download_dir['pdf'], exist_ok=True)
+    pdf_path = os.path.join(book1.download_dir['pdf'], 'output.pdf')
+    print('Converting images to %s ...' % pdf_path)
+    pdf.output(pdf_path, 'F')
+    print('done')
