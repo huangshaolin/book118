@@ -9,7 +9,7 @@ import inspect
 import requests
 import urllib.parse as urlparse
 
-from fpdf import FPDF
+from PIL import Image
 
 
 _self_dir = os.path.dirname(os.path.realpath(
@@ -152,13 +152,10 @@ if __name__ == '__main__':
     book1.download_all_imgs()
     img_dir = book1.download_dir['img']
     pdf_dir = book1.download_dir['pdf']
-    img_list = [os.path.join(img_dir, x) for x in os.listdir(img_dir)]
-    pdf = FPDF()
-    for img in img_list:
-        pdf.add_page()
-        pdf.image(img)
+    img_path_list = [os.path.join(img_dir, x) for x in os.listdir(img_dir)]
+    img_list = [Image.open(x) for x in img_path_list]
     os.makedirs(book1.download_dir['pdf'], exist_ok=True)
     pdf_path = os.path.join(book1.download_dir['pdf'], 'output.pdf')
-    print('Converting images to %s ...' % pdf_path)
-    pdf.output(pdf_path, 'F')
+    img_list[0].save(pdf_path, 'PDF', resolution=100.0,
+                     save_all=True, append_images=img_list[1:])
     print('done')
