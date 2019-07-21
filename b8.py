@@ -6,8 +6,9 @@ import json
 import time
 import imghdr
 import inspect
-import requests
 import urllib.parse as urlparse
+
+import requests
 
 from PIL import Image
 
@@ -49,7 +50,7 @@ def safe_download(url, path):
     print("done", flush=True)
 
 
-class Api(object):
+class Api:
 
     def __init__(self, document_id):
         headers = {
@@ -68,7 +69,6 @@ class Api(object):
             'view_token': params['token'],
             'project_id': params['project_id'],
         })
-        pass
 
     def get_preview_pages_info(self, page):
         url = update_url_params(self.base_url, {'page': page})
@@ -79,7 +79,7 @@ class Api(object):
         return preview_info
 
 
-class Book(object):
+class Book:
 
     def __init__(self, html_url):
         self.document_id = html_url[html_url.rfind('/')+1: html_url.rfind('.')]
