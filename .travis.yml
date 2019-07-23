@@ -9,7 +9,7 @@ python:
   - "nightly"  # nightly build
 # command to install dependencies
 install:
-  - pip install --user -r requirements.txt
+  - pip install -r requirements.txt
   - pip install pylint
 # command to run tests
 script:
