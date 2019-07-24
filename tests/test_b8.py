@@ -4,7 +4,7 @@ import os
 import unittest
 import subprocess
 
-from context import b8
+from .context import b8
 
 
 class TestB8(unittest.TestCase):
