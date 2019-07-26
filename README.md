@@ -1,5 +1,7 @@
 # book118
 
+[![Build Status](https://travis-ci.org/huangshaolin/book118.svg?branch=master)](https://travis-ci.org/huangshaolin/book118)
+
 Downloader for book118.com
 
 ## Install
