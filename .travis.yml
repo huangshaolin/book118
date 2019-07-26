@@ -8,9 +8,12 @@ python:
   - "nightly"  # nightly build
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
-  - pip install pylint
+  - pip3 install -r requirements.txt
+  - pip3 install pylint codecov coverage
 # command to run tests
 script:
-  - python3 -m unittest discover
+  - PYTHONPATH=. coverage run test/test_*.py
   - pylint "$(pwd)"
+
+after_success:
+  - codecov
