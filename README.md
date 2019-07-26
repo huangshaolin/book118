@@ -1,6 +1,6 @@
 # book118
 
-[![Build Status](https://travis-ci.org/huangshaolin/book118.svg?branch=master)](https://travis-ci.org/huangshaolin/book118)
+[![Build Status](https://travis-ci.org/huangshaolin/book118.svg?branch=master)](https://travis-ci.org/huangshaolin/book118) [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
 Downloader for book118.com
 
