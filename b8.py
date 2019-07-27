@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""b8: book118 downloader CLI tool
+Usage: python3 b8.py <book118_document_url>
+"""
+
 import os
 import sys
 import json
