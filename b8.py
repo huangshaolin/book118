@@ -156,7 +156,7 @@ if __name__ == '__main__':
     book1.download_all_imgs()
     img_dir = book1.download_dir['img']
     pdf_dir = book1.download_dir['pdf']
-    img_path_list = [os.path.join(img_dir, x) for x in os.listdir(img_dir)]
+    img_path_list = sorted([os.path.join(img_dir, x) for x in os.listdir(img_dir)])
     img_list = [Image.open(x) for x in img_path_list]
     os.makedirs(book1.download_dir['pdf'], exist_ok=True)
     pdf_path = os.path.join(book1.download_dir['pdf'], 'output.pdf')
