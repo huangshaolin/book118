@@ -9,15 +9,6 @@ import b8
 
 class TestB8(unittest.TestCase):
 
-    def test_main(self):
-        b8_path = b8.__file__
-        document_url = 'https://max.book118.com/html/2019/0127/6202200032002004.shtm'
-        result = subprocess.run(['python3', b8_path, document_url], check=True)
-        self.assertEqual(result.returncode, 0)
-        pdf_path = os.path.join(
-            os.path.dirname(b8_path), 'download/6202200032002004/pdf/output.pdf')
-        self.assertTrue(os.path.isfile(pdf_path))
-
     def test_get_url_params(self):
         urls_params = {
             r'https://fanyi.baidu.com/?aldtype=85#en/zh/hello': {'aldtype': '85'},
@@ -41,6 +32,21 @@ class TestB8(unittest.TestCase):
             new_url = b8.update_url_params(url, params[0])
             new_params = b8.get_url_params(new_url)
             self.assertEqual(new_params, params[1])
+
+    def test_book(self):
+        book1 = b8.Book(
+            'https://max.book118.com/html/2019/0127/6202200032002004.shtm')
+        self.assertTrue(book1.img_urls['1'])
+
+    def test_main(self):
+        document_url = 'https://max.book118.com/html/2019/0127/6202200032002004.shtm'
+        b8_path = b8.__file__
+        pdf_path = os.path.join(
+            os.path.dirname(b8_path), 'download/6202200032002004/pdf/output.pdf')
+        os.remove(pdf_path)
+        result = subprocess.run(['python3', b8_path, document_url], check=True)
+        self.assertEqual(result.returncode, 0)
+        self.assertTrue(os.path.isfile(pdf_path))
 
 
 if __name__ == '__main__':
