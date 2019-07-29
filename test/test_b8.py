@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import unittest
 import subprocess
 
@@ -13,6 +14,9 @@ class TestB8(unittest.TestCase):
         document_url = 'https://max.book118.com/html/2019/0127/6202200032002004.shtm'
         result = subprocess.run(['python3', b8_path, document_url], check=True)
         self.assertEqual(result.returncode, 0)
+        pdf_path = os.path.join(
+            os.path.dirname(b8_path), 'download/6202200032002004/pdf/output.pdf')
+        self.assertTrue(os.path.isfile(pdf_path))
 
     def test_get_url_params(self):
         urls_params = {

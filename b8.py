@@ -148,7 +148,7 @@ class Book:
                 os.rename(file_path, base_file + '.' + img_ext)
 
 
-if __name__ == '__main__':
+def main():
     if len(sys.argv) != 2:
         print("Usage: b8 <book118_document_url>")
         sys.exit()
@@ -156,10 +156,15 @@ if __name__ == '__main__':
     book1.download_all_imgs()
     img_dir = book1.download_dir['img']
     pdf_dir = book1.download_dir['pdf']
-    img_path_list = sorted([os.path.join(img_dir, x) for x in os.listdir(img_dir)])
+    os.makedirs(pdf_dir, exist_ok=True)
+    pdf_path = os.path.join(pdf_dir, 'output.pdf')
+    img_path_list = sorted([os.path.join(img_dir, x)
+                            for x in os.listdir(img_dir)])
     img_list = [Image.open(x) for x in img_path_list]
-    os.makedirs(book1.download_dir['pdf'], exist_ok=True)
-    pdf_path = os.path.join(book1.download_dir['pdf'], 'output.pdf')
     img_list[0].save(pdf_path, 'PDF', resolution=100.0,
                      save_all=True, append_images=img_list[1:])
-    print('done')
+    print('PDF path: %s' % pdf_path)
+
+
+if __name__ == '__main__':
+    main()
