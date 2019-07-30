@@ -43,7 +43,8 @@ class TestB8(unittest.TestCase):
         b8_path = b8.__file__
         pdf_path = os.path.join(
             os.path.dirname(b8_path), 'download/6202200032002004/pdf/output.pdf')
-        os.remove(pdf_path)
+        if os.path.isfile(pdf_path):
+            os.remove(pdf_path)
         result = subprocess.run(['python3', b8_path, document_url], check=True)
         self.assertEqual(result.returncode, 0)
         self.assertTrue(os.path.isfile(pdf_path))
